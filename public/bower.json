@@ -1,0 +1,20 @@
+{
+  "name": "ProjetoMVC",
+  "authors": [
+    "fabio@fabiofarias.com.br <Fabio Rocha>"
+  ],
+  "description": "Projeto DEVMIDIA",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
