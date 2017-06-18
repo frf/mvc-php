@@ -11,7 +11,7 @@
 #### public - diretório publico para poder armazenar imagens, css, js
 
 
-### Este projeto foi utilizado
+### Neste projeto foi utilizado
  
  * Banco de Dados Mysql
  * bower para instalação do bootstrap e jquery
