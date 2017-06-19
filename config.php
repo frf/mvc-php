@@ -15,9 +15,9 @@ define('PATH', dirname( __FILE__));
 /*
  * Configuracoes da base de dados
  */
-define( 'DB_HOST_NAME'  , 'localhost' );
-define( 'DB_USERNAME'   , 'devmidia' );
-define( 'DB_PASSWORD'   , 'devmidia' );
+define( 'DB_HOST_NAME' , 'localhost' );
+define( 'DB_USERNAME'   , 'root' );
+define( 'DB_PASSWORD'   , 'root' );
 define( 'DB_NAME'       , 'devmidia' );
 define( 'DB_DRIVER'     , 'mysql' );
 define( 'TOKEN'         , '123456' );
