@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="vl_produto">Valor R$</label>
-                <input type="text" class="form-control" data-affixes-stay="true" data-thousands="." data-decimal="," id="vl_produto" name="vl_produto" placeholder="R$ " value="<?php echo Util::formatMoney($aViewVar['aProduto']['vl_produto'],"pt"); ?>">
+                <input type="text" class="form-control" data-affixes-stay="true" data-thousands="." data-decimal="," id="vl_produto" name="vl_produto" placeholder="R$ " value="<?php echo $oUtil::formatMoney($aViewVar['aProduto']['vl_produto'],"pt"); ?>">
             </div>
 
             <div class="form-group">
@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label for="dt_validade">Data Validade</label>
-                <input type="text" class="form-control" id="dt_validade" name="dt_validade" value="<?php echo Util::convertDate($aViewVar['aProduto']['dt_validade'],"pt"); ?>">
+                <input type="text" class="form-control" id="dt_validade" name="dt_validade" value="<?php echo $oUtil::convertDate($aViewVar['aProduto']['dt_validade'],"pt"); ?>">
             </div>
 
             <button type="submit" class="btn btn-success btn-sm">Salvar</button>

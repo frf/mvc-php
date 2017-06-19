@@ -17,6 +17,7 @@ class App
     private $controllerName;
     private $action;
     private $params;
+    private $token;
 
     /*
      * @Author: Fabio Rocha
@@ -24,6 +25,17 @@ class App
      */
     public function __construct()
     {
+        $this->friendlyUrl();
+
+        if($this->controller == "api" && empty($this->getToken()) && $this->getToken() != TOKEN){
+            header("HTTP/1.1 401 Unauthorized");
+            require_once PATH . "/App/Views/error/401.php";
+            exit;
+        }
+
+        define ('APP_HOST', $_SERVER['HTTP_HOST']);
+
+
     }
 
     /* @Author: Fabio Rocha
@@ -31,7 +43,6 @@ class App
      */
     public function run()
     {
-        $this->friendlyUrl();
 
         /*
          * Caso nao venha nenhum controller definir nome de controler como Null
@@ -46,9 +57,6 @@ class App
         $this->controllerFile = $this->controllerName. '.php' ;
         $this->action         = preg_replace( '/[^a-zA-Z]/i', '', $this->action );
 
-        require_once "controllers/Controller.php";
-
-
         /*
          * Ustilizar como padrao a class HomeController
          */
@@ -56,25 +64,25 @@ class App
 
             require_once "controllers/HomeController.php";
 
-            $this->controller = new \HomeController($this);
+            $this->controller = new \App\Controllers\HomeController($this);
             $this->controller->index();
 
             return;
 
         }
 
-        if ( ! file_exists( PATH . '/controllers/' . $this->controllerFile) ) {
-            require_once PATH . "/views/error/404.php";
+        if ( ! file_exists( PATH . '/App/Controllers/' . $this->controllerFile) ) {
+            require_once PATH . "/App/Views/error/404.php";
             return;
         }
 
-        require_once "controllers/" . $this->controllerFile;
+        $noClass = "\\App\\Controllers\\" . $this->controllerName;
 
-        $oController = new $this->controllerName($this);
+        $oController = new $noClass($this);
 
-        if ( ! class_exists($this->controllerName) ) {
+        if ( ! class_exists($noClass) ) {
 
-            require_once PATH . "/views/error/500.php";
+            require_once PATH . "/App/Views/error/500.php";
 
             return;
 
@@ -94,12 +102,12 @@ class App
 
         } else{
 
-            require_once PATH . "/views/error/500.php";
+            require_once PATH . "/App/Views/error/500.php";
 
             return;
         }
 
-        require_once PATH . "/views/error/404.php";
+        require_once PATH . "/App/Views/error/404.php";
 
         return;
 
@@ -122,7 +130,8 @@ class App
 
         if ( isset( $_GET['url'] ) ) {
 
-            $path = $_GET['url'];
+            $path           = $_GET['url'];
+            $this->token    = $_GET['token'];
 
             $path = rtrim($path, '/'); //REMOVE ULTIMA BARRA
             $path = filter_var($path, FILTER_SANITIZE_URL); // LIMPA URL
@@ -143,7 +152,14 @@ class App
             }
         }
     }
-
+    public function getController()
+    {
+        return $this->controller;
+    }
+    public function getAction()
+    {
+        return $this->action;
+    }
     public function getNameController()
     {
         return $this->controllerName;
@@ -151,5 +167,8 @@ class App
     public function getParams()
     {
         return $this->params;
+    }
+    public function getToken(){
+        return $this->token;
     }
 }

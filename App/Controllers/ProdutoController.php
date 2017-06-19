@@ -1,10 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fabiorocha
- * Date: 17/06/17
- * Time: 18:28
- */
+
+namespace App\Controllers;
+
+use App\Models\Produto;
+
+
 
 class ProdutoController extends Controller
 {
@@ -17,8 +17,6 @@ class ProdutoController extends Controller
 
         self::setViewParam('nameController',$this->app->getNameController());
 
-        require_once PATH. '/lib/DB.php';
-        require_once PATH. '/models/Produto.php';
     }
 
     public function index()

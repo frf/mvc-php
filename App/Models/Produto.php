@@ -1,10 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fabiorocha
- * Date: 16/06/17
- * Time: 23:10
- */
+
+namespace App\Models;
+
+use App\Lib\DB;
+use App\Lib\Util;
 
 class Produto extends DB
 {
@@ -49,7 +48,7 @@ class Produto extends DB
                         "'".$data['no_produto']."',".$data['vl_produto'].",'".$data['ds_produto']."','".$data['dt_cadastro']."','".$data['dt_validade']."'"
             );
 
-        }catch (Exception $e){
+        }catch (\Exception $e){
             echo $e->getMessage();
 
         }

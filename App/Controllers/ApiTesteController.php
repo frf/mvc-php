@@ -1,12 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fabiorocha
- * Date: 17/06/17
- * Time: 18:30
- */
 
-class HomeController extends Controller
+namespace App\Controllers;
+
+class ApiTesteController extends Controller
 {
     private $app;
 
@@ -20,7 +16,7 @@ class HomeController extends Controller
 
         self::setViewParam('nameController',$this->app->getNameController());
 
-        $this->render('home/index');
+        $this->render('api-teste/index');
 
     }
 

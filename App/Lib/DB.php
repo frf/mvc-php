@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Lib;
+
 class DB
 {
     private $error;
@@ -14,8 +16,8 @@ class DB
         $pdoConfig .= "dbname=".DB_NAME.";";
 
         try {
-            $this->pdo = new PDO($pdoConfig, DB_USERNAME, DB_PASSWORD);
-        } catch (PDOException $e) {
+            $this->pdo = new \PDO($pdoConfig, DB_USERNAME, DB_PASSWORD);
+        } catch (\PDOException $e) {
             die('ERRO DE CONEXAO: ' . $e->getMessage());
         }
     }

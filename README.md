@@ -14,6 +14,7 @@
 ### Neste projeto foi utilizado
  
  * Banco de Dados Mysql
+ * Composer para autoload das classes
  * bower para instalação do bootstrap e jquery
  * css para customização de layout
  * js para customização de Java Script

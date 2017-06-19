@@ -10,9 +10,8 @@ use App\App;
 
 session_start();
 
-require_once 'lib/Util.php';       // Configuracoes do sistema
 require_once 'config.php';       // Configuracoes do sistema
-require_once 'App.php';          // Classe App principal
+require_once("vendor/autoload.php");
 
 $app = new App();
 $app->run();

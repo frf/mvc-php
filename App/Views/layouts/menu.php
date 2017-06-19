@@ -12,6 +12,8 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li <?php if($aViewVar['nameController'] == "") { ?> class="active" <?php } ?>><a href="/" >Home</a></li>
+                <li <?php if($aViewVar['nameController'] == "DocController") { ?> class="active" <?php } ?>><a href="/doc" >Doc</a></li>
+                <li <?php if($aViewVar['nameController'] == "ApiTesteController") { ?> class="active" <?php } ?>><a href="/apiTeste" >API</a></li>
                 <li <?php if($aViewVar['nameController'] == "ProdutoController") { ?> class="active" <?php } ?> class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Produtos <span class="caret"></span></a>
                     <ul class="dropdown-menu">
