@@ -62,8 +62,6 @@ class App
          */
         if ( ! $this->controller ) {
 
-            require_once "controllers/HomeController.php";
-
             $this->controller = new \App\Controllers\HomeController($this);
             $this->controller->index();
 
