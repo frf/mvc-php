@@ -2,30 +2,46 @@
 
 namespace App\Lib;
 
+use PDO;
+
 class DB
 {
     private $error;
+    private $host;
+    private $name;
+    private $username;
+    private $password;
+    private $driver;
+    private $pdo;
 
     public function __construct()
     {
-        $this->connect();
+        $oConfigDb = $_SESSION['oConfig']->getConfig()->db;
+
+        $this->host         = $oConfigDb->host;
+        $this->name         = $oConfigDb->name;
+        $this->username     = $oConfigDb->username;
+        $this->passsword    = $oConfigDb->passsword;
+        $this->driver       = $oConfigDb->driver;
+
+        $this->pdo = $this->connect();
     }
     protected function connect() {
 
-        $pdoConfig  = DB_DRIVER . ":". "host=" . DB_HOST_NAME . ";";
-        $pdoConfig .= "dbname=".DB_NAME.";";
+        $pdoConfig  = $this->driver . ":". "host=" . $this->host . ";";
+        $pdoConfig .= "dbname=".$this->name.";";
 
         try {
-            $this->pdo = new \PDO($pdoConfig, DB_USERNAME, DB_PASSWORD);
+            return  new \PDO($pdoConfig, $this->username, $this->password);
         } catch (\PDOException $e) {
             die('ERRO DE CONEXAO: ' . $e->getMessage());
         }
     }
 
 
-    public function query( $stmt, $data_array = null ) {
+    public function query( $sql, $data_array = null ) {
 
-        $query  = $this->pdo->prepare( $stmt );
+        $query  = $this->pdo->prepare( $sql );
         $exec   = $query->execute( $data_array );
 
         if ( $exec ) {

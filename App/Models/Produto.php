@@ -7,7 +7,6 @@ use App\Lib\Util;
 
 class Produto extends DB
 {
-
     public function listar($id=null)
     {
 

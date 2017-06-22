@@ -10,7 +10,8 @@ use App\App;
 
 session_start();
 
-require_once 'config.php';       // Configuracoes do sistema
+error_reporting(E_ALL & ~E_NOTICE);
+
 require_once("vendor/autoload.php");
 
 $app = new App();

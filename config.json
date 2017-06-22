@@ -1,0 +1,12 @@
+{
+  "db": {
+      "host": "localhost",
+      "username": "root",
+      "password": "",
+      "name": "devmedia",
+      "driver": "mysql"
+  },
+  "api": {
+    "token": "123456"
+  }
+}

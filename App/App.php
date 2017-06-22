@@ -1,14 +1,8 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: fabiorocha
- * Aplicação principal para iniciar sistema
- * Date: 17/06/17
- * Time: 00:19
- */
-
 namespace App;
+
+use App\Lib\Config;
 
 class App
 {
@@ -18,24 +12,39 @@ class App
     private $action;
     private $params;
     private $token;
+    private $oConfig;
 
     /*
      * @Author: Fabio Rocha
-     * Contructior para passagem de parametros iniciais para aplicação
+     * Contructior para iniciar aplicação
      */
     public function __construct()
     {
+        /*
+         * Constantes do sistema
+         */
+        define('APP_HOST'  , $_SERVER['HTTP_HOST']);
+        define('PATH'      , realpath('./'));
+
         $this->friendlyUrl();
+        $this->initConfig();
 
         if($this->controller == "api" && empty($this->getToken()) && $this->getToken() != TOKEN){
             header("HTTP/1.1 401 Unauthorized");
             require_once PATH . "/App/Views/error/401.php";
             exit;
         }
+    }
+    /*
+     * Iniciando as configuracoes
+     */
+    public function initConfig()
+    {
+        if(!file_exists(PATH . "/config.json")){
+            throw new \Exception("Arquivo de configuracao inválido.");
+        }
 
-        define ('APP_HOST', $_SERVER['HTTP_HOST']);
-
-
+        $this->oConfig = new Config(PATH . "/config.json");
     }
 
     /* @Author: Fabio Rocha
@@ -168,5 +177,8 @@ class App
     }
     public function getToken(){
         return $this->token;
+    }
+    public function getConfig(){
+        return $this->oConfig->getConfig();
     }
 }

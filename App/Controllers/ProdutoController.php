@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Lib\DB;
 use App\Models\Produto;
 
 
 
 class ProdutoController extends Controller
 {
-
     private $app;
 
     public function __construct($app)
@@ -22,7 +22,7 @@ class ProdutoController extends Controller
     public function index()
     {
 
-        $oProduto = new Produto();
+        $oProduto = new Produto($this->app->getConfig()->db);
 
         $oListaProduto = $oProduto->listar();
 
