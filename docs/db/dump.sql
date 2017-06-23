@@ -8,7 +8,6 @@ CREATE TABLE produto
     dt_validade DATE NOT NULL
 );
 
-DROP TABLE usuario;
 CREATE TABLE usuario
 (
     id INT PRIMARY KEY AUTO_INCREMENT,
