@@ -3,14 +3,12 @@
 namespace App\Controllers;
 
 use App\Lib\DB;
-use App\Models\Produto;
+use App\Models\Usuario;
 
 
-
-class ProdutoController extends Controller
+class UsuarioController extends Controller
 {
     private $app;
-    public $isAuth;
 
     public function __construct($app)
     {
@@ -23,11 +21,11 @@ class ProdutoController extends Controller
     public function index()
     {
 
-        $oListaProduto = Produto::listar();
+        $oListaProduto = Usuario::listar();
 
-        self::setViewParam('aListaProduto',$oListaProduto);
+        self::setViewParam('aListaUsuario',$oListaProduto);
 
-        $this->render('produto/index');
+        $this->render('usuario/index');
 
     }
 
@@ -40,25 +38,25 @@ class ProdutoController extends Controller
         self::setViewJs('/public/js/main.mask.money.js');
         self::setViewCss('/public/css/jquery-ui.min.css');
 
-        $this->render('produto/cadastrar');
+        $this->render('usuario/cadastrar');
 
     }
 
     public function salvar()
     {
 
-        Produto::salvar($_POST);
+        Usuario::salvar($_POST);
 
-        $this->redirect('produto/index');
+        $this->redirect('usuario/index');
 
     }
 
     public function atualizar()
     {
 
-        Produto::atualizar($_POST);
+        Usuario::atualizar($_POST);
 
-        $this->redirect('produto/index');
+        $this->redirect('usuario/index');
 
     }
 
@@ -71,9 +69,9 @@ class ProdutoController extends Controller
         self::setViewJs('/public/js/main.mask.money.js');
         self::setViewCss('/public/css/jquery-ui.min.css');
 
-        self::setViewParam('aProduto',Produto::listar($this->app->getParams()[0]));
+        self::setViewParam('aUsuario',Usuario::listar($this->app->getParams()[0]));
 
-        $this->render('produto/editar');
+        $this->render('usuario/editar');
 
     }
 
@@ -81,9 +79,9 @@ class ProdutoController extends Controller
     {
         $id = $param[0];
 
-        Produto::excluir($id);
+        Usuario::excluir($id);
 
-        $this->redirect('produto/index');
+        $this->redirect('usuario/index');
 
     }
 

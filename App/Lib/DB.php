@@ -1,8 +1,12 @@
 <?php
-
+/*
+ * @Author Fabio Rocha
+ */
 namespace App\Lib;
 
 use PDO;
+use PDOException;
+use Exception;
 
 class DB
 {
@@ -18,28 +22,28 @@ class DB
     {
         $oConfigDb = $_SESSION['oConfig']->getConfig()->db;
 
-        $this->host         = $oConfigDb->host;
-        $this->name         = $oConfigDb->name;
-        $this->username     = $oConfigDb->username;
-        $this->passsword    = $oConfigDb->passsword;
-        $this->driver       = $oConfigDb->driver;
+        $this->host         = (!empty($oConfigDb->host))        ? $oConfigDb->host      : "";
+        $this->name         = (!empty($oConfigDb->name))        ? $oConfigDb->name      : "";
+        $this->username     = (!empty($oConfigDb->username))    ? $oConfigDb->username  : "";
+        $this->password    = (!empty($oConfigDb->password))   ? $oConfigDb->password : "";
+        $this->driver       = (!empty($oConfigDb->driver))      ? $oConfigDb->driver    : "";
 
         $this->pdo = $this->connect();
     }
+
     protected function connect() {
 
         $pdoConfig  = $this->driver . ":". "host=" . $this->host . ";";
         $pdoConfig .= "dbname=".$this->name.";";
 
         try {
-            return  new \PDO($pdoConfig, $this->username, $this->password);
-        } catch (\PDOException $e) {
-            die('ERRO DE CONEXAO: ' . $e->getMessage());
+            return  new PDO($pdoConfig, $this->username, $this->password);
+        } catch (PDOException $e) {
+            throw new Exception("Erro de conexão com o banco de dados",500);
         }
     }
 
-
-    public function query( $sql, $data_array = null ) {
+    public function query($sql, $data_array = null ) {
 
         $query  = $this->pdo->prepare( $sql );
         $exec   = $query->execute( $data_array );
@@ -54,8 +58,7 @@ class DB
         }
     }
 
-
-    public function insert( $table , $cols ,  $values) {
+    public function insert($table, $cols ,  $values) {
 
         $stmt = "INSERT INTO $table ( $cols ) VALUES ( $values ) ";
 
@@ -76,7 +79,7 @@ class DB
         return;
     }
 
-    public function update( $table , $values) {
+    public function update($table, $values) {
 
         $stmt = "UPDATE $table SET $values ";
 
@@ -89,4 +92,5 @@ class DB
     {
         return $this->query("DELETE FROM $table WHERE $where" );
     }
+
 }

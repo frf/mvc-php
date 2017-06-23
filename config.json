@@ -1,12 +1,17 @@
 {
+  "version": "1.0.0",
   "db": {
       "host": "localhost",
       "username": "root",
-      "password": "",
+      "password": "123456",
       "name": "devmedia",
       "driver": "mysql"
   },
   "api": {
     "token": "123456"
+  },
+  "info": {
+    "title": "Devmedia FW",
+    "phone": "(21) 9999-0000"
   }
 }

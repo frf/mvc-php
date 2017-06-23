@@ -44,3 +44,6 @@ code {
 .imgCenter{
     text-align: center !important;
 }
+.usuarioLogado{
+    color:#FFFFFF;
+}

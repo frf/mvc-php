@@ -5,7 +5,18 @@ namespace App\Lib;
 
 class Util
 {
-
+    public static function hash($senha,$revert=false)
+    {
+        if($revert){
+            return base64_decode($senha);
+        }else{
+            return base64_encode($senha);
+        }
+    }
+    public static function redirect($view)
+    {
+        header('Location: /' . $view);
+    }
     public static function convertDate($dt,$format){
 
         if($format == "Y-m-d"){

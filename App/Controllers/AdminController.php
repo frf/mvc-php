@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-class ApiTesteController extends Controller
+class AdminController extends Controller
 {
     private $app;
+    public $isAuth;
 
     public function __construct($app)
     {
@@ -16,7 +17,7 @@ class ApiTesteController extends Controller
 
         self::setViewParam('nameController',$this->app->getNameController());
 
-        $this->render('api-teste/index');
+        $this->render('admin/index');
 
     }
 

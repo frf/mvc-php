@@ -18,4 +18,8 @@
  * bower para instalação do bootstrap e jquery
  * css para customização de layout
  * js para customização de Java Script
+ 
+ 
+ Auth - Controller adicionar public $isAuth; ele identifica que deve efetuar login
+  
 

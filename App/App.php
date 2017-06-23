@@ -1,8 +1,13 @@
 <?php
-
+/*
+ * @Author Fabio Rocha
+ */
 namespace App;
 
+use App\Lib\Auth;
 use App\Lib\Config;
+use App\Lib\Util;
+use Exception;
 
 class App
 {
@@ -14,62 +19,46 @@ class App
     private $token;
     private $oConfig;
 
-    /*
-     * @Author: Fabio Rocha
-     * Contructior para iniciar aplicação
-     */
     public function __construct()
     {
         /*
          * Constantes do sistema
          */
-        define('APP_HOST'  , $_SERVER['HTTP_HOST']);
-        define('PATH'      , realpath('./'));
+        define('APP_HOST', $_SERVER['HTTP_HOST']);
+        define('PATH', realpath('./'));
 
         $this->friendlyUrl();
         $this->initConfig();
 
-        if($this->controller == "api" && empty($this->getToken()) && $this->getToken() != TOKEN){
+        if ($this->controller == "api" && empty($this->getToken()) && $this->getToken() != TOKEN) {
             header("HTTP/1.1 401 Unauthorized");
             require_once PATH . "/App/Views/error/401.php";
             exit;
         }
     }
-    /*
-     * Iniciando as configuracoes
-     */
+
     public function initConfig()
     {
         if(!file_exists(PATH . "/config.json")){
-            throw new \Exception("Arquivo de configuracao inválido.");
+            throw new Exception("Arquivo de configuração inválido.!", 500);
         }
 
         $this->oConfig = new Config(PATH . "/config.json");
     }
 
-    /* @Author: Fabio Rocha
-     * Method inicio da aplicacao
-     */
     public function run()
     {
 
-        /*
-         * Caso nao venha nenhum controller definir nome de controler como Null
-         * Sendo assim o / se permanece como Null sem nenhuma definicao
-         */
-        if($this->controller) {
+        if ($this->controller) {
             $this->controllerName = preg_replace('/[^a-zA-Z]/i', '', ucwords($this->controller) . 'Controller');
-        }else{
+        } else {
             $this->controllerName = null;
         }
 
-        $this->controllerFile = $this->controllerName. '.php' ;
-        $this->action         = preg_replace( '/[^a-zA-Z]/i', '', $this->action );
+        $this->controllerFile = $this->controllerName . '.php';
+        $this->action = preg_replace('/[^a-zA-Z]/i', '', $this->action);
 
-        /*
-         * Ustilizar como padrao a class HomeController
-         */
-        if ( ! $this->controller ) {
+        if (!$this->controller) {
 
             $this->controller = new \App\Controllers\HomeController($this);
             $this->controller->index();
@@ -78,67 +67,55 @@ class App
 
         }
 
-        if ( ! file_exists( PATH . '/App/Controllers/' . $this->controllerFile) ) {
-            require_once PATH . "/App/Views/error/404.php";
-            return;
+        if (!file_exists(PATH . '/App/Controllers/' . $this->controllerFile)) {
+
+            throw new Exception("Página não encontrada.", 404);
+
         }
 
         $noClass = "\\App\\Controllers\\" . $this->controllerName;
 
         $oController = new $noClass($this);
 
-        if ( ! class_exists($noClass) ) {
+        if (!class_exists($noClass)) {
 
-            require_once PATH . "/App/Views/error/500.php";
+            throw new Exception("Nosso suporte já esta verificando desculpe!", 500);
 
             return;
 
         }
 
-        if ( method_exists($oController , $this->action ) ) {
+        (Auth::checkController($oController)) ? Util::redirect('login/') : "";
 
-            $oController->{$this->action}( $this->params );
+        if (method_exists($oController, $this->action)) {
 
-            return;
-
-        }else if ( ! $this->action && method_exists($oController, 'index' ) ) {
-
-            $oController->index( $this->params );
+            $oController->{$this->action}($this->params);
 
             return;
 
-        } else{
+        } else if (!$this->action && method_exists($oController, 'index')) {
 
-            require_once PATH . "/App/Views/error/500.php";
+            $oController->index($this->params);
 
             return;
+
+        } else {
+
+            throw new Exception("Nosso suporte já esta verificando desculpe!", 500);
+
         }
 
-        require_once PATH . "/App/Views/error/404.php";
+        throw new Exception("Página não encontrada.", 404);
 
         return;
+    }
 
-    }
-    /*
-     * @Author: Fabio Rocha
-     * @Return: Array posicao
-     */
-    function checkArray ( $array, $key ) {
-        if ( isset( $array[ $key ] ) && !empty( $array[ $key ] ) ) {
-            return $array[ $key ];
-        }
-        return null;
-    }
-    /*
-     * @Author: Fabio Rocha
-     * Preocessa URL amigavel para montagem dos parametros de controller,action e parametros
-     */
     public function friendlyUrl () {
 
         if ( isset( $_GET['url'] ) ) {
 
             $path           = $_GET['url'];
-            $this->token    = $_GET['token'];
+            $this->token    = (isset($_GET['token'])) ? $_GET['token'] : "";
 
             $path = rtrim($path, '/'); //REMOVE ULTIMA BARRA
             $path = filter_var($path, FILTER_SANITIZE_URL); // LIMPA URL
@@ -159,25 +136,38 @@ class App
             }
         }
     }
+
+    private function checkArray ( $array, $key ) {
+        if ( isset( $array[ $key ] ) && !empty( $array[ $key ] ) ) {
+            return $array[ $key ];
+        }
+        return null;
+    }
+
+    public function getToken(){
+        return $this->token;
+    }
+
     public function getController()
     {
         return $this->controller;
     }
+
     public function getAction()
     {
         return $this->action;
     }
+
     public function getNameController()
     {
         return $this->controllerName;
     }
+
     public function getParams()
     {
         return $this->params;
     }
-    public function getToken(){
-        return $this->token;
-    }
+
     public function getConfig(){
         return $this->oConfig->getConfig();
     }

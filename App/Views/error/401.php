@@ -7,28 +7,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MVC</title>
+    <title><?php print $_SESSION['oConfig']->getConfig()->info->title; ?></title>
 
     <link href="/public/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #eee;
-        }
-
-        .error {
-            max-width: 500px;
-            padding: 15px;
-            margin: 0 auto;
-        }
-
-    </style>
+    <link href="/public/css/error.css" rel="stylesheet">
 
 </head>
     <body>
         <div class="container">
-            <h1 class="error">Acesso negado desculpe !</h1>
+            <h1 class="error"><?php echo $varMessage; ?></h1>
         </div>
     </body>
 </html>

@@ -7,3 +7,12 @@ CREATE TABLE produto
     dt_cadastro DATE NOT NULL,
     dt_validade DATE NOT NULL
 );
+
+DROP TABLE usuario;
+CREATE TABLE usuario
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario VARCHAR(30) NOT NULL,
+    senha VARCHAR(15) NOT NULL,
+    perfil CHAR(1)  DEFAULT 'U' NOT NULL
+);

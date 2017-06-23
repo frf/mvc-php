@@ -7,14 +7,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>DEVMIDIA</title>
+    <title><?php print $_SESSION['oConfig']->getConfig()->info->title; ?></title>
 
     <link href="/public/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/css/main.css" rel="stylesheet">
-    <script src="/public/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/public/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/public/js/main.js"></script>
 
+    <?php echo $aViewCss; ?>
 </head>
-
 <body>
+
